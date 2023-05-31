@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rapid_api/covid-19/model/covid_model.dart';
 import 'package:rapid_api/covid-19/provider/covid_provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -27,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           else if(snapshot.hasData)
             {
-              List covidList=snapshot.data!;
+             Welcome welcome=snapshot.data!;
               return Container(
                 height: 100.h,
                 width: 100.w,

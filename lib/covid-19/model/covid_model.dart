@@ -1,84 +1,177 @@
-// To parse this JSON data, do
-//
-//     final welcome = welcomeFromJson(jsonString);
 
 import 'dart:convert';
 
-List<Welcome> welcomeFromJson(String str) => List<Welcome>.from(json.decode(str).map((x) => Welcome.fromJson(x)));
+Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
 
-String welcomeToJson(List<Welcome> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String welcomeToJson(Welcome data) => json.encode(data.toJson());
 
 class Welcome {
-  String? activeCasesText;
-  String? countryText;
-  LastUpdate? lastUpdate;
-  String? newCasesText;
-  NewDeathsText? newDeathsText;
-  String? totalCasesText;
-  String? totalDeathsText;
-  String? totalRecoveredText;
+  String? welcomeGet;
+  List? parameters;
+  List? errors;
+  int? results;
+  List? response;
 
   Welcome({
-    this.activeCasesText,
-    this.countryText,
-    this.lastUpdate,
-    this.newCasesText,
-    this.newDeathsText,
-    this.totalCasesText,
-    this.totalDeathsText,
-    this.totalRecoveredText,
+    this.welcomeGet,
+    this.parameters,
+    this.errors,
+    this.results,
+    this.response,
   });
 
   factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
-    activeCasesText: json["Active Cases_text"],
-    countryText: json["Country_text"],
-    lastUpdate: lastUpdateValues.map[json["Last Update"]]!,
-    newCasesText: json["New Cases_text"],
-    newDeathsText: newDeathsTextValues.map[json["New Deaths_text"]]!,
-    totalCasesText: json["Total Cases_text"],
-    totalDeathsText: json["Total Deaths_text"],
-    totalRecoveredText: json["Total Recovered_text"],
+    welcomeGet: json["get"],
+    parameters: json["parameters"] ,
+    errors: json["errors"] ,
+    results: json["results"],
+    response: json["response"],
   );
 
   Map<String, dynamic> toJson() => {
-    "Active Cases_text": activeCasesText,
-    "Country_text": countryText,
-    "Last Update": lastUpdateValues.reverse[lastUpdate],
-    "New Cases_text": newCasesText,
-    "New Deaths_text": newDeathsTextValues.reverse[newDeathsText],
-    "Total Cases_text": totalCasesText,
-    "Total Deaths_text": totalDeathsText,
-    "Total Recovered_text": totalRecoveredText,
+    "get": welcomeGet,
+    "parameters": parameters ,
+    "errors": errors ,
+    "results": results,
+    "response": response,
   };
 }
 
-enum LastUpdate { THE_202305310118, THE_202305302316, THE_202305300708, THE_202305310016, THE_202305301009, THE_202305301812, THE_202305301209 }
+class Response {
+  Continent? continent;
+  String? country;
+  int? population;
+  Cases? cases;
+  Deaths? deaths;
+  Tests? tests;
+  DateTime? day;
+  DateTime? time;
 
-final lastUpdateValues = EnumValues({
-  "2023-05-30 07:08": LastUpdate.THE_202305300708,
-  "2023-05-30 10:09": LastUpdate.THE_202305301009,
-  "2023-05-30 12:09": LastUpdate.THE_202305301209,
-  "2023-05-30 18:12": LastUpdate.THE_202305301812,
-  "2023-05-30 23:16": LastUpdate.THE_202305302316,
-  "2023-05-31 00:16": LastUpdate.THE_202305310016,
-  "2023-05-31 01:18": LastUpdate.THE_202305310118
+  Response({
+    this.continent,
+    this.country,
+    this.population,
+    this.cases,
+    this.deaths,
+    this.tests,
+    this.day,
+    this.time,
+  });
+
+  factory Response.fromJson(Map json) => Response(
+    continent: continentValues.map[json["continent"]]!,
+    country: json["country"],
+    population: json["population"],
+    cases: json["cases"],
+    deaths: json["deaths"] ,
+    tests: json["tests"],
+    day: json["day"] ,
+    time: json["time"] ,
+  );
+
+  Map toJson() => {
+    "continent": continentValues.reverse[continent],
+    "country": country,
+    "population": population,
+    "cases": cases?.toJson(),
+    "deaths": deaths?.toJson(),
+    "tests": tests?.toJson(),
+    "day": "${day!.year.toString().padLeft(4, '0')}-${day!.month.toString().padLeft(2, '0')}-${day!.day.toString().padLeft(2, '0')}",
+    "time": time?.toIso8601String(),
+  };
+}
+
+class Cases {
+  String? casesNew;
+  int? active;
+  int? critical;
+  int? recovered;
+  String? the1MPop;
+  int? total;
+
+  Cases({
+    this.casesNew,
+    this.active,
+    this.critical,
+    this.recovered,
+    this.the1MPop,
+    this.total,
+  });
+
+  factory Cases.fromJson(Map json) => Cases(
+    casesNew: json["new"],
+    active: json["active"],
+    critical: json["critical"],
+    recovered: json["recovered"],
+    the1MPop: json["1M_pop"],
+    total: json["total"],
+  );
+
+  Map toJson() => {
+    "new": casesNew,
+    "active": active,
+    "critical": critical,
+    "recovered": recovered,
+    "1M_pop": the1MPop,
+    "total": total,
+  };
+}
+
+enum Continent { NORTH_AMERICA, AFRICA, ASIA, OCEANIA, SOUTH_AMERICA, EUROPE, ALL }
+
+final continentValues = EnumValues({
+  "Africa": Continent.AFRICA,
+  "All": Continent.ALL,
+  "Asia": Continent.ASIA,
+  "Europe": Continent.EUROPE,
+  "North-America": Continent.NORTH_AMERICA,
+  "Oceania": Continent.OCEANIA,
+  "South-America": Continent.SOUTH_AMERICA
 });
 
-enum NewDeathsText { THE_259, THE_8, EMPTY, THE_48, THE_35, THE_7, THE_138, THE_1, THE_4, THE_5, THE_2 }
+class Deaths {
+  String? deathsNew;
+  String? the1MPop;
+  int? total;
 
-final newDeathsTextValues = EnumValues({
-  "": NewDeathsText.EMPTY,
-  "+1": NewDeathsText.THE_1,
-  "+138": NewDeathsText.THE_138,
-  "+2": NewDeathsText.THE_2,
-  "+259": NewDeathsText.THE_259,
-  "+35": NewDeathsText.THE_35,
-  "+4": NewDeathsText.THE_4,
-  "+48": NewDeathsText.THE_48,
-  "+5": NewDeathsText.THE_5,
-  "+7": NewDeathsText.THE_7,
-  "+8": NewDeathsText.THE_8
-});
+  Deaths({
+    this.deathsNew,
+    this.the1MPop,
+    this.total,
+  });
+
+  factory Deaths.fromJson(Map<String, dynamic> json) => Deaths(
+    deathsNew: json["new"],
+    the1MPop: json["1M_pop"],
+    total: json["total"],
+  );
+
+  Map toJson() => {
+    "new": deathsNew,
+    "1M_pop": the1MPop,
+    "total": total,
+  };
+}
+
+class Tests {
+  String? the1MPop;
+  int? total;
+
+  Tests({
+    this.the1MPop,
+    this.total,
+  });
+
+  factory Tests.fromJson(Map json) => Tests(
+    the1MPop: json["1M_pop"],
+    total: json["total"],
+  );
+
+  Map toJson() => {
+    "1M_pop": the1MPop,
+    "total": total,
+  };
+}
 
 class EnumValues<T> {
   Map<String, T> map;

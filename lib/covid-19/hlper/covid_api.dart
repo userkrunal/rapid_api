@@ -7,15 +7,15 @@ class Covid_Api
 {
 
   static Covid_Api covid_api=Covid_Api();
-  Future<List<Welcome>> getApi()
+  Future<Welcome> getApi()
   async {
-    String link="https://covid-19-tracking.p.rapidapi.com/v1/usa";
+    String link="https://covid-193.p.rapidapi.com/statistics";
     var respones= await http.get(Uri.parse(link),headers: {
       'X-RapidAPI-Key':'12dd88f577msh44f44d4113bb7ebp166c90jsn93bf45a939ff',
-      'X-RapidAPI-Host':'covid-19-tracking.p.rapidapi.com'
+      'X-RapidAPI-Host':'covid-193.p.rapidapi.com'
     });
     var json=jsonDecode(respones.body);
-    List<Welcome> data=json.map<String,dynamic>((e)=>Welcome.fromJson(e)).toList();
+    var data=Welcome.fromJson(json);
     return data;
   }
 }
