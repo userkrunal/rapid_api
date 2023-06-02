@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
     cpT=Provider.of<CovidProvider>(context,listen: true);
     return SafeArea(child: Scaffold(
       body: FutureBuilder(
-        future: cpF!.showData(),
+        future: cpF!.getCovidData(),
         builder: (context, snapshot) {
           if(snapshot.hasError)
             {
@@ -28,11 +28,46 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           else if(snapshot.hasData)
             {
-             Welcome welcome=snapshot.data!;
+              List<CovidModel> covidData=snapshot.data!;
               return Container(
                 height: 100.h,
                 width: 100.w,
                 decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/img.png"),fit: BoxFit.fill)),
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, "search");
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(25),
+                        child: Container(height: 60,decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),color: Colors.white70),child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Text("Search...",style: TextStyle(fontSize: 25,color: Colors.black)),
+                              Spacer(),
+                              Icon(Icons.search,size: 30,color: Colors.black,)
+                            ],
+                          ),
+                        ),),
+                      ),
+                    ),
+                    Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, 'Contry',arguments: CovidModel() );
+                          },
+                          child: ListView.builder(itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(leading: Image.network("${covidData[index].countryInfo!.flag}",height: 70,width: 70,fit: BoxFit.fill,),title: Text("${covidData[index].country}",style: TextStyle(fontSize: 3.h,color: Colors.white))),
+                            );
+                          },itemCount: covidData.length),
+                        ),
+                    ),
+                  ],
+                ),
               );
             }
           return Center(child: CircularProgressIndicator());

@@ -4,9 +4,34 @@ import 'package:rapid_api/covid-19/model/covid_model.dart';
 
 class CovidProvider extends ChangeNotifier
 {
-  Future<Welcome> showData()
+  List<CovidModel> covid=[];
+
+  Future<List<CovidModel>> getCovidData()
   async {
-    return await Covid_Api.covid_api.getApi();
+    covid=await CovidApi.covidApi.getApi();
+    return covid;
+  }
+
+  List<CovidModel> l1=[];
+  List<CovidModel> filtered=[];
+  void searchcountry(String search)
+  {
+    if(search.isEmpty)
+      {
+        l1=covid;
+      }
+    else
+      {
+        filtered.clear();
+        for(var c in covid)
+          {
+            if(c.country!.toLowerCase().contains(search.toLowerCase()))
+              {
+                filtered.add(c);
+              }
+          }
+        l1=filtered;
+      }
     notifyListeners();
   }
 }

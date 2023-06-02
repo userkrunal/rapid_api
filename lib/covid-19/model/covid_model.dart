@@ -1,175 +1,162 @@
+// To parse this JSON data, do
+//
+//     final CovidModel = CovidModelFromJson(jsonString);
 
 import 'dart:convert';
 
-Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
+List<CovidModel> CovidModelFromJson(String str) => List<CovidModel>.from(json.decode(str).map((x) => CovidModel.fromJson(x)));
 
-String welcomeToJson(Welcome data) => json.encode(data.toJson());
+String CovidModelToJson(List<CovidModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Welcome {
-  String? welcomeGet;
-  List? parameters;
-  List? errors;
-  int? results;
-  List? response;
+class CovidModel {
+  int? updated;
+  String? country;
+  CountryInfo? countryInfo;
+  int? cases;
+  int? todayCases;
+  int? deaths;
+  int? todayDeaths;
+  int? recovered;
+  int? todayRecovered;
+  int? active;
+  int? critical;
+  int? casesPerOneMillion;
+  int? deathsPerOneMillion;
+  int? tests;
+  int? testsPerOneMillion;
+  int? population;
+  Continent? continent;
+  int? oneCasePerPeople;
+  int? oneDeathPerPeople;
+  int? oneTestPerPeople;
+  double? activePerOneMillion;
+  double? recoveredPerOneMillion;
+  double? criticalPerOneMillion;
 
-  Welcome({
-    this.welcomeGet,
-    this.parameters,
-    this.errors,
-    this.results,
-    this.response,
+  CovidModel({
+    this.updated,
+    this.country,
+    this.countryInfo,
+    this.cases,
+    this.todayCases,
+    this.deaths,
+    this.todayDeaths,
+    this.recovered,
+    this.todayRecovered,
+    this.active,
+    this.critical,
+    this.casesPerOneMillion,
+    this.deathsPerOneMillion,
+    this.tests,
+    this.testsPerOneMillion,
+    this.population,
+    this.continent,
+    this.oneCasePerPeople,
+    this.oneDeathPerPeople,
+    this.oneTestPerPeople,
+    this.activePerOneMillion,
+    this.recoveredPerOneMillion,
+    this.criticalPerOneMillion,
   });
 
-  factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
-    welcomeGet: json["get"],
-    parameters: json["parameters"] ,
-    errors: json["errors"] ,
-    results: json["results"],
-    response: json["response"],
+  factory CovidModel.fromJson(Map<String, dynamic> json) => CovidModel(
+    updated: json["updated"],
+    country: json["country"],
+    countryInfo: json["countryInfo"] == null ? null : CountryInfo.fromJson(json["countryInfo"]),
+    cases: json["cases"],
+    todayCases: json["todayCases"],
+    deaths: json["deaths"],
+    todayDeaths: json["todayDeaths"],
+    recovered: json["recovered"],
+    todayRecovered: json["todayRecovered"],
+    active: json["active"],
+    critical: json["critical"],
+    casesPerOneMillion: json["casesPerOneMillion"],
+    deathsPerOneMillion: json["deathsPerOneMillion"],
+    tests: json["tests"],
+    testsPerOneMillion: json["testsPerOneMillion"],
+    population: json["population"],
+    continent: continentValues.map[json["continent"]]!,
+    oneCasePerPeople: json["oneCasePerPeople"],
+    oneDeathPerPeople: json["oneDeathPerPeople"],
+    oneTestPerPeople: json["oneTestPerPeople"],
+    activePerOneMillion: json["activePerOneMillion"]?.toDouble(),
+    recoveredPerOneMillion: json["recoveredPerOneMillion"]?.toDouble(),
+    criticalPerOneMillion: json["criticalPerOneMillion"]?.toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
-    "get": welcomeGet,
-    "parameters": parameters ,
-    "errors": errors ,
-    "results": results,
-    "response": response,
-  };
-}
-
-class Response {
-  Continent? continent;
-  String? country;
-  int? population;
-  Cases? cases;
-  Deaths? deaths;
-  Tests? tests;
-  DateTime? day;
-  DateTime? time;
-
-  Response({
-    this.continent,
-    this.country,
-    this.population,
-    this.cases,
-    this.deaths,
-    this.tests,
-    this.day,
-    this.time,
-  });
-
-  factory Response.fromJson(Map json) => Response(
-    continent: continentValues.map[json["continent"]]!,
-    country: json["country"],
-    population: json["population"],
-    cases: json["cases"],
-    deaths: json["deaths"] ,
-    tests: json["tests"],
-    day: json["day"] ,
-    time: json["time"] ,
-  );
-
-  Map toJson() => {
-    "continent": continentValues.reverse[continent],
+    "updated": updated,
     "country": country,
-    "population": population,
-    "cases": cases?.toJson(),
-    "deaths": deaths?.toJson(),
-    "tests": tests?.toJson(),
-    "day": "${day!.year.toString().padLeft(4, '0')}-${day!.month.toString().padLeft(2, '0')}-${day!.day.toString().padLeft(2, '0')}",
-    "time": time?.toIso8601String(),
-  };
-}
-
-class Cases {
-  String? casesNew;
-  int? active;
-  int? critical;
-  int? recovered;
-  String? the1MPop;
-  int? total;
-
-  Cases({
-    this.casesNew,
-    this.active,
-    this.critical,
-    this.recovered,
-    this.the1MPop,
-    this.total,
-  });
-
-  factory Cases.fromJson(Map json) => Cases(
-    casesNew: json["new"],
-    active: json["active"],
-    critical: json["critical"],
-    recovered: json["recovered"],
-    the1MPop: json["1M_pop"],
-    total: json["total"],
-  );
-
-  Map toJson() => {
-    "new": casesNew,
+    "countryInfo": countryInfo?.toJson(),
+    "cases": cases,
+    "todayCases": todayCases,
+    "deaths": deaths,
+    "todayDeaths": todayDeaths,
+    "recovered": recovered,
+    "todayRecovered": todayRecovered,
     "active": active,
     "critical": critical,
-    "recovered": recovered,
-    "1M_pop": the1MPop,
-    "total": total,
+    "casesPerOneMillion": casesPerOneMillion,
+    "deathsPerOneMillion": deathsPerOneMillion,
+    "tests": tests,
+    "testsPerOneMillion": testsPerOneMillion,
+    "population": population,
+    "continent": continentValues.reverse[continent],
+    "oneCasePerPeople": oneCasePerPeople,
+    "oneDeathPerPeople": oneDeathPerPeople,
+    "oneTestPerPeople": oneTestPerPeople,
+    "activePerOneMillion": activePerOneMillion,
+    "recoveredPerOneMillion": recoveredPerOneMillion,
+    "criticalPerOneMillion": criticalPerOneMillion,
   };
 }
 
-enum Continent { NORTH_AMERICA, AFRICA, ASIA, OCEANIA, SOUTH_AMERICA, EUROPE, ALL }
+enum Continent { ASIA, EUROPE, AFRICA, NORTH_AMERICA, SOUTH_AMERICA, AUSTRALIA_OCEANIA, EMPTY }
 
 final continentValues = EnumValues({
   "Africa": Continent.AFRICA,
-  "All": Continent.ALL,
   "Asia": Continent.ASIA,
+  "Australia-Oceania": Continent.AUSTRALIA_OCEANIA,
+  "": Continent.EMPTY,
   "Europe": Continent.EUROPE,
-  "North-America": Continent.NORTH_AMERICA,
-  "Oceania": Continent.OCEANIA,
-  "South-America": Continent.SOUTH_AMERICA
+  "North America": Continent.NORTH_AMERICA,
+  "South America": Continent.SOUTH_AMERICA
 });
 
-class Deaths {
-  String? deathsNew;
-  String? the1MPop;
-  int? total;
+class CountryInfo {
+  int? id;
+  String? iso2;
+  String? iso3;
+  double? lat;
+  double? long;
+  String? flag;
 
-  Deaths({
-    this.deathsNew,
-    this.the1MPop,
-    this.total,
+  CountryInfo({
+    this.id,
+    this.iso2,
+    this.iso3,
+    this.lat,
+    this.long,
+    this.flag,
   });
 
-  factory Deaths.fromJson(Map<String, dynamic> json) => Deaths(
-    deathsNew: json["new"],
-    the1MPop: json["1M_pop"],
-    total: json["total"],
+  factory CountryInfo.fromJson(Map<String, dynamic> json) => CountryInfo(
+    id: json["_id"],
+    iso2: json["iso2"],
+    iso3: json["iso3"],
+    lat: json["lat"]?.toDouble(),
+    long: json["long"]?.toDouble(),
+    flag: json["flag"],
   );
 
-  Map toJson() => {
-    "new": deathsNew,
-    "1M_pop": the1MPop,
-    "total": total,
-  };
-}
-
-class Tests {
-  String? the1MPop;
-  int? total;
-
-  Tests({
-    this.the1MPop,
-    this.total,
-  });
-
-  factory Tests.fromJson(Map json) => Tests(
-    the1MPop: json["1M_pop"],
-    total: json["total"],
-  );
-
-  Map toJson() => {
-    "1M_pop": the1MPop,
-    "total": total,
+  Map<String, dynamic> toJson() => {
+    "_id": id,
+    "iso2": iso2,
+    "iso3": iso3,
+    "lat": lat,
+    "long": long,
+    "flag": flag,
   };
 }
 
