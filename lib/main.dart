@@ -4,6 +4,7 @@ import 'package:rapid_api/covid-19/provider/covid_provider.dart';
 import 'package:rapid_api/covid-19/view/home1.dart';
 import 'package:rapid_api/covid-19/view/home_screen.dart';
 import 'package:rapid_api/covid-19/view/search_screen.dart';
+import 'package:rapid_api/covid-19/view/show_screen.dart';
 import 'package:sizer/sizer.dart';
 
 void main()
@@ -18,6 +19,7 @@ void main()
             '/':(context) => HomeScreen(),
             'search':(context) => SearchScreen(),
             'contry':(context) => ContryScreen(),
+            'show':(context) => ShowScreen(),
           },
         ),
       );

@@ -54,17 +54,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, 'Contry',arguments: CovidModel() );
-                          },
-                          child: ListView.builder(itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListTile(leading: Image.network("${covidData[index].countryInfo!.flag}",height: 70,width: 70,fit: BoxFit.fill,),title: Text("${covidData[index].country}",style: TextStyle(fontSize: 3.h,color: Colors.white))),
-                            );
-                          },itemCount: covidData.length),
-                        ),
+                        child: ListView.builder(itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(context, 'contry',arguments: index);
+                              },
+                                child: ListTile(leading: Image.network("${covidData[index].countryInfo!.flag}",height: 50,width: 70,fit: BoxFit.fill,),title: Text("${covidData[index].country}",style: TextStyle(fontSize: 3.h,color: Colors.white)))),
+                          );
+                        },itemCount: covidData.length),
                     ),
                   ],
                 ),
